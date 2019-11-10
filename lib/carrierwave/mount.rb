@@ -155,6 +155,16 @@ module CarrierWave
       include mod
       mod.class_eval <<-RUBY, __FILE__, __LINE__+1
 
+        def #{column}_filename
+          self.#{column}.file.filename rescue ""
+        end
+
+        def #{column}_filename=val
+          require 'uri'
+          uri = URI.parse(val)
+          self.write_attribute(:#{column}, File.basename(uri.path))
+        end
+
         def #{column}
           _mounter(:#{column}).uploader
         end

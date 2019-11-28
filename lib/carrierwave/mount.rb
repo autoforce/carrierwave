@@ -162,7 +162,7 @@ module CarrierWave
         def #{column}_filename=val
           require 'uri'
           uri = URI.parse(val)
-          self.write_attribute(:#{column}, File.basename(uri.path))
+          self.write_attribute(:#{column}, URI.decode(File.basename(uri.path).to_s))
         end
 
         def #{column}
